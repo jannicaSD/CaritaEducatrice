@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ChevronDown, HelpCircle, ArrowRight, Mail, Calendar, Sparkles } from "lucide-react";
 
 export default function CaritaFAQ() {
-  const [openIndex, setOpenIndex] = useState(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
     {
@@ -82,7 +82,7 @@ export default function CaritaFAQ() {
     }
   ];
 
-  const toggleAccordion = (index) => {
+  const toggleAccordion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
