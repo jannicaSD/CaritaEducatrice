@@ -10,6 +10,7 @@ import {
   CheckCircle2
 } from "lucide-react";
 import { extendedTrainingCategories } from "./extendedtraining";
+import { upcomingExpansionCategories } from "./upcomingexpansion";
 
 export default function AllCoursesPage() {
   // Core Specialist Catalog (Carita Flagship & Specialized Series)
@@ -162,26 +163,12 @@ export default function AllCoursesPage() {
     }
   ];
 
-  const upcomingExpansions = [
-    {
-      title: "Advanced Fundraising & Donor Development",
-      items: ["Fundraising Strategy & Donor Development", "Major Gifts & Individual Giving", "Corporate Partnerships & Sponsorship", "Digital Fundraising & Donor Engagement"]
-    },
-    {
-      title: "NGO Leadership & Organisational Development",
-      items: ["Strategic Planning for NGOs & Charities", "NGO Management & Organisational Development", "Board Governance & Trustee Development"]
-    },
-    {
-      title: "Project Management & Finance",
-      items: ["Project Management for NGOs", "Monitoring, Evaluation & Learning (MEL)", "Financial Management & Budgeting", "Professional Communication & Report Writing"]
-    },
-    {
-      title: "Digital & Emerging Practice",
-      items: ["AI & Digital Tools for NGOs & Charities"]
-    }
-  ];
-
   const extendedSubjectCount = extendedTrainingCategories.reduce(
+    (total, category) => total + category.courses.length,
+    0
+  );
+
+  const upcomingSubjectCount = upcomingExpansionCategories.reduce(
     (total, category) => total + category.courses.length,
     0
   );
@@ -421,40 +408,114 @@ export default function AllCoursesPage() {
         </div>
       </section>
 
-      {/* Recommended Future Course Expansion */}
-      <section className="py-16 bg-[#FAF7F2] border-b border-gray-200/60">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#0F5C4A] bg-[#0F5C4A]/10 px-3 py-1 rounded-full">
-              Coming Soon
+      {/* Recommended Future Course Expansions Section (Fully Expanded Interactive Accordions) */}
+      <section className="border-b border-gray-200/60 bg-[#FAF7F2] py-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto mb-14 max-w-3xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full bg-[#0F5C4A]/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[#0F5C4A]">
+              <Sparkles className="h-4 w-4" /> Coming Soon
             </span>
-            <h3 className="text-2xl sm:text-3xl font-bold text-[#1E2A38] mt-3">
+            <h2 className="mt-4 text-2xl font-bold text-[#1E2A38] sm:text-4xl">
               Recommended Future Course Expansions[cite: 1]
-            </h3>
-            <p className="text-sm sm:text-base text-gray-600 mt-3 leading-relaxed">
-              Tailored to Carita's NGO, charity, fundraising, advocacy and social-impact positioning. These forthcoming programmes will be published as new materials are researched and approved[cite: 1].
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-gray-600 sm:text-base">
+              Tailored specifically to Carita's NGO, charity, fundraising, advocacy and social-impact positioning. These forthcoming programmes will be published as new materials are researched, structured and approved[cite: 1].
+            </p>
+            <p className="mt-3 text-xs text-gray-500">
+              {upcomingExpansionCategories.length} upcoming category · {upcomingSubjectCount} proposed subjects · Pipeline expansion[cite: 1]
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {upcomingExpansions.map((exp, eIdx) => (
-              <div key={eIdx} className="bg-white border border-gray-200/70 rounded-2xl p-6 flex flex-col justify-between shadow-xs">
-                <div>
-                  <h4 className="text-base font-bold text-[#1E2A38] mb-4 pb-2 border-b border-gray-200">
-                    {exp.title}
-                  </h4>
-                  <ul className="space-y-2.5 mb-6">
-                    {exp.items.map((item, iIdx) => (
-                      <li key={iIdx} className="text-xs sm:text-sm text-gray-600 flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#0F5C4A] mt-1.5 flex-shrink-0" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+          <div className="space-y-8">
+            {upcomingExpansionCategories.map((category) => (
+              <div
+                key={category.title}
+                className="rounded-3xl border border-gray-200/80 bg-white p-5 sm:p-8 shadow-sm"
+              >
+                <div className="mb-6 flex flex-col gap-3 border-b border-gray-100 pb-5 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#0F5C4A]">
+                      Expansion Pipeline[cite: 1]
+                    </span>
+                    <h3 className="mt-1 text-xl font-bold text-[#1E2A38] sm:text-2xl">
+                      {category.title}
+                    </h3>
+                  </div>
+                  <span className="w-fit rounded-lg border border-gray-200 bg-[#FAF7F2] px-3 py-1.5 text-xs font-medium text-gray-600">
+                    {category.courses.length} upcoming subjects[cite: 1]
+                  </span>
                 </div>
-                <span className="inline-block text-center text-xs font-semibold bg-[#FAF7F2] text-gray-500 py-2 rounded-xl border border-gray-200">
-                  Coming Soon [Client Approval][cite: 1]
-                </span>
+                <p className="mb-6 max-w-4xl text-sm leading-relaxed text-gray-600">
+                  {category.description}
+                </p>
+
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                  {category.courses.map((course: any) => (
+                    <details
+                      key={course.title}
+                      className="group rounded-2xl border border-gray-200 bg-[#FAF7F2] p-5 open:bg-white open:shadow-sm transition-all"
+                    >
+                      <summary className="cursor-pointer list-none">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <span className="rounded-lg bg-[#0F5C4A]/10 px-2.5 py-1 text-[11px] font-semibold text-[#0F5C4A]">
+                            {course.badge}
+                          </span>
+                          <span className="flex items-center gap-1 text-xs text-gray-500 font-medium">
+                            <Clock className="h-3.5 w-3.5 text-[#0F5C4A]" /> Status: {course.duration}[cite: 1]
+                          </span>
+                        </div>
+                        <h4 className="mt-3 text-base font-bold text-[#1E2A38] sm:text-lg">
+                          {course.title}
+                        </h4>
+                        <p className="mt-1 text-xs font-semibold text-[#0F5C4A]">{course.subtitle}</p>
+                        <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                          {course.description}
+                        </p>
+                        <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#0F5C4A]">
+                          Preview curriculum details[cite: 1]
+                          <ArrowRight className="h-4 w-4 transition-transform group-open:rotate-90" />
+                        </span>
+                      </summary>
+
+                      <div className="mt-5 border-t border-gray-100 pt-5 space-y-4">
+                        <div>
+                          <h5 className="text-sm font-bold text-[#1E2A38]">Target Audience</h5>
+                          <p className="mt-1 text-sm leading-relaxed text-gray-600">{course.bestFor}</p>
+                        </div>
+                        <div>
+                          <h5 className="text-sm font-bold text-[#1E2A38]">Anticipated Learning Outcomes</h5>
+                          <ul className="mt-1 space-y-1.5">
+                            {course.learningOutcomes?.map((outcome: string, oIdx: number) => (
+                              <li key={oIdx} className="text-xs sm:text-sm text-gray-600 flex items-start gap-2">
+                                <CheckCircle2 className="w-4 h-4 text-[#0F5C4A] mt-0.5 flex-shrink-0" />
+                                <span>{outcome}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        {course.modules && (
+                          <div>
+                            <h5 className="text-sm font-bold text-[#1E2A38]">Proposed Module Structure</h5>
+                            <ul className="mt-1 space-y-2">
+                              {course.modules.map((mod: any, mIdx: number) => (
+                                <li key={mIdx} className="text-xs sm:text-sm text-gray-600 bg-white p-2.5 rounded-xl border border-gray-200/60">
+                                  <strong className="text-[#1E2A38] block mb-0.5">{mod.title}</strong>
+                                  <span>{mod.detail}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        {course.practicalOutput && (
+                          <div className="bg-[#0F5C4A]/5 p-3 rounded-xl border border-[#0F5C4A]/10 text-xs text-gray-700">
+                            <strong className="text-[#0F5C4A] block mb-0.5">Planned Practical Output:[cite: 1]</strong>
+                            {course.practicalOutput}
+                          </div>
+                        )}
+                      </div>
+                    </details>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
